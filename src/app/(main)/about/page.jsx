@@ -5,8 +5,8 @@ export const metadata = {
 
 const AboutPage = () => {
     return ( 
-        <div>
-            About Page
+        <div className="container mx-atuo mt-10">
+            <h2 className="font-bold text-2xl text-center">This is About Page</h2>
         </div>
      );
 }
