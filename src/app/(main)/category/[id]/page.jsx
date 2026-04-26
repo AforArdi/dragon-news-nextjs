@@ -20,14 +20,12 @@ const NewsByCategory = async ({params}) => {
             <div className="col-span-6">
                 <h2 className="font-semibold text-xl text-[#403F3F]">Dragon News Home</h2>
                 <div>
-                    {
-                        allNews.map(news=>
+                    {allNews.length > 0 ? allNews.map(news=>
                             <NewsCard
                             key={news._id}
                             news={news}
                             ></NewsCard>
-                        )
-                    }
+                    ): <h2 className="font-bold text-2xl text-center mt-4 text-[#706F6F]">No News Found for this category</h2>}
                 </div>
             </div>
 
