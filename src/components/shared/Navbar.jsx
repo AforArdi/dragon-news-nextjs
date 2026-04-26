@@ -25,7 +25,9 @@ const Navbar = () => {
             <span className="loading loading-ring loading-xl"></span>
             : user ? <div className="flex items-center gap-3">
                 <h2>Hello, {user?.name}</h2>
-                <Image src={user?.image || userIcon} alt="User Icon" width={60} height={60}></Image>
+                <Image src={user?.image || userIcon} alt="User Icon" width={60} height={60}
+                className="rounded-full"
+                ></Image>
                 <Link href={'/login'}>
                     <button
                     onClick={async ()=> await authClient.signOut()}
