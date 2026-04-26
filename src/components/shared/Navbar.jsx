@@ -7,9 +7,9 @@ import NavLink from "./NavLink";
 import { authClient } from "@/lib/auth-client";
 
 const Navbar = () => {
-    const { data: session } = authClient.useSession();
+    // isPending to show the pending spinner on the navbar user icon section
+    const { data: session, isPending } = authClient.useSession();
     const user = session?.user;
-    console.log(user.image);
 
     return ( 
         <div className="container mx-auto flex items-center justify-between mt-7">
@@ -19,12 +19,20 @@ const Navbar = () => {
                 <ul><NavLink href={'/about'}>About</NavLink></ul>
                 <ul><NavLink href={'/career'}>Career</NavLink></ul>
             </div>
-            <div className="flex items-center gap-3">
-                <Image src={user.image || userIcon} alt="User Icon" width={40} height={40}></Image>
+
+            {/* ternary chain */}
+            {isPending ? 
+            <span className="loading loading-ring loading-xl"></span>
+            : user ? <div className="flex items-center gap-3">
+                <h2>Hello, {user?.name}</h2>
+                <Image src={user?.image || userIcon} alt="User Icon" width={60} height={60}></Image>
                 <Link href={'/login'}>
-                    <button className="btn bg-[#403F3F] text-white">Login</button>
+                    <button
+                    onClick={async ()=> await authClient.signOut()}
+                    className="btn bg-[#403F3F] text-white">Logout</button>
                 </Link>
-            </div>
+            </div> :
+            <button className="btn bg-[#403F3F] text-white">Login</button>}
         </div>
      );
 }
