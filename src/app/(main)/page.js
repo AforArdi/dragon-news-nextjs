@@ -1,11 +1,17 @@
 import LeftSideBar from "@/components/homepage/news/LeftSideBar";
 import RightSIdeBar from "@/components/homepage/news/RightSIdeBar";
+import { getCategory } from "@/services/services";
 
-export default function Home() {
+const Home= async()=> {
+  const categories = await getCategory();
+
   return (
     <div className="container mx-auto mt-6 grid grid-cols-12 gap-6">
       <div className="col-span-3">
-        <LeftSideBar></LeftSideBar>
+        <LeftSideBar 
+        categories={categories}
+        activeId={'04'}
+        ></LeftSideBar>
       </div>
 
       <div className="col-span-6">
@@ -18,3 +24,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Home;
