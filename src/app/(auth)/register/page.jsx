@@ -1,5 +1,6 @@
 'use client'
 
+import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import { useForm } from "react-hook-form"
 
@@ -11,8 +12,21 @@ const RegisterPage = () => {
         formState: { errors },
     } = useForm()
 
-    const onSubmit = (data) => {
-        console.log(data);
+    const onSubmit = async (data) => {
+        const {name, email, photoUrl, password} = data;
+        const { data: res, error } = await authClient.signUp.email({
+            name, // required
+            email, // required
+            password, // required
+            image: photoUrl,
+            callbackURL: "/",
+        });
+        if(error){
+            alert(`${error.message}`)
+        }
+        if(res){
+            alert('Registration Success!')
+        }
     };
 
     return (
@@ -28,7 +42,7 @@ const RegisterPage = () => {
                     {...register("name", { required: 'Name is required' })}
                     className="input"
                     placeholder="your name" />
-                    {errors.name && <span>{errors.name.message}</span>}
+                {errors.name && <span>{errors.name.message}</span>}
 
                 <label className="label">Photo URL</label>
                 <input
@@ -43,7 +57,7 @@ const RegisterPage = () => {
                     {...register("email", { required: 'Email is required' })}
                     className="input"
                     placeholder="your email" />
-                    {errors.email && <span>{errors.email.message}</span>}
+                {errors.email && <span>{errors.email.message}</span>}
 
                 <label className="label">Password</label>
                 <input
@@ -51,7 +65,7 @@ const RegisterPage = () => {
                     {...register("password", { required: 'Password is required' })}
                     className="input"
                     placeholder="your password" />
-                    {errors.password && <span>{errors.password.message}</span>}
+                {errors.password && <span>{errors.password.message}</span>}
 
                 <button className="btn bg-[#403F3F] text-white mt-4">Register</button>
 
