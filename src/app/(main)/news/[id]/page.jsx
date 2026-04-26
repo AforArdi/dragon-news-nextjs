@@ -1,10 +1,16 @@
 import { getNewsByNewsId } from "@/lib/services";
 import Image from "next/image";
 import Link from "next/link";
-import { CiBookmark, CiShare2 } from "react-icons/ci";
-import { FaEye, FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
-import { IoIosStarOutline } from "react-icons/io";
-import { format } from "date-fns";
+import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
+
+export const generateMetadata = async ({params}) => {
+    const { id } = await params;
+    const news = await getNewsByNewsId(id);
+    return {
+    title: news.title,
+    description: news.details,
+  }
+};
 
 const NewsDetailsPage = async ({ params }) => {
     const { id } = await params;
