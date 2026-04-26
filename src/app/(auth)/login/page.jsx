@@ -4,7 +4,14 @@ import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import { useForm } from "react-hook-form"
 
+import { Eye, EyeSlash } from "@gravity-ui/icons";
+import { Button, InputGroup, Label, TextField } from "@heroui/react";
+import { useState } from "react";
+
 const LoginPage = () => {
+    // pass toggle state
+    const [isVisible, setIsVisible] = useState(false);
+
     const {
         register,
         handleSubmit,
@@ -13,7 +20,7 @@ const LoginPage = () => {
     } = useForm()
 
     const onSubmit = async (data) => {
-        const {name, email, photoUrl, password} = data;
+        const { name, email, photoUrl, password } = data;
         const { data: res, error } = await authClient.signIn.email({
             name, // required
             email, // required
@@ -21,10 +28,10 @@ const LoginPage = () => {
             image: photoUrl,
             callbackURL: '/',
         });
-        if(error){
+        if (error) {
             alert(`${error.message}`)
         }
-        if(res){
+        if (res) {
             alert('Login Success!')
         }
     };
@@ -45,11 +52,22 @@ const LoginPage = () => {
                 {errors.email && <span>{errors.email.message}</span>}
 
                 <label className="label">Password</label>
-                <input
-                    type="password"
-                    {...register("password", { required: 'password is required' })}
-                    className="input"
-                    placeholder="your password" />
+                <InputGroup>
+                    <InputGroup.Input
+                        className="w-full input"
+                        placeholder="your password"
+                        type={isVisible ? "text" : "password"}
+                        {...register("password", { required: 'Password is required' })}
+                    />
+                    <Button
+                        isIconOnly
+                        size="sm"
+                        variant="ghost"
+                        onPress={() => setIsVisible(!isVisible)}
+                    >
+                        {isVisible ? <Eye className="size-4" /> : <EyeSlash className="size-4" />}
+                    </Button>
+                </InputGroup>
                 {errors.password && <span>{errors.password.message}</span>}
 
                 <button className="btn bg-[#403F3F] text-white mt-4">Login</button>
