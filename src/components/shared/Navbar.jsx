@@ -34,7 +34,9 @@ const Navbar = () => {
                     className="btn bg-[#403F3F] text-white">Logout</button>
                 </Link>
             </div> :
-            <button className="btn bg-[#403F3F] text-white">Login</button>}
+            <Link href={'/login'}>
+                <button className="btn bg-[#403F3F] text-white">Login</button>    
+            </Link>}
         </div>
      );
 }
